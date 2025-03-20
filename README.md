@@ -115,18 +115,8 @@ This project includes API tests written with PestPHP.
 composer require pestphp/pest --dev
 php artisan pest:install
 ```
-### 2. Configure Testing Database
-Use SQLite for testing:
-```env
-DB_CONNECTION=sqlite
-DB_DATABASE=:memory:
-```
-Or update `phpunit.xml`:
-```xml
-<env name="DB_CONNECTION" value="sqlite"/>
-<env name="DB_DATABASE" value=":memory:"/>
-```
-### 3. Run Tests
+
+### 2. Run Tests
 ```bash
 php artisan test
 ```
