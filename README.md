@@ -28,7 +28,7 @@ Ensure you have the following installed:
 ## Setup Instructions
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/your-username/multi-tenant-ecommerce.git
+git clone [https://github.com/abdoalkhabet/multi-tenant-0.git]
 cd multi-tenant-ecommerce
 ```
 ### 2. Install Dependencies
