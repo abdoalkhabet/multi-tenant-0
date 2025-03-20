@@ -1,66 +1,169 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Multi-Tenant E-Commerce API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Project Overview
+This is a multi-tenant e-commerce API built with Laravel and Passport for authentication. The application allows multiple tenants (store owners) to manage their own products and orders within a single system. Each tenant has isolated data, ensuring that users can only interact with products and orders associated with their tenant.
 
-## About Laravel
+The API supports:
+- User registration, login/logout
+- Product management
+- Order processing
+- API token-based authentication using Laravel Passport
+- Multi-tenancy data isolation
+- API testing with PestPHP
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Features
+- **Multi-Tenancy:** Each tenant has a separate set of products and orders.
+- **Authentication:** User registration, login, and logout with Laravel Passport token-based authentication.
+- **Product Management:** CRUD operations for products.
+- **Order Management:** View, place, and cancel orders with stock validation.
+- **Testing:** API tests with PestPHP.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Prerequisites
+Ensure you have the following installed:
+- PHP (>= 8.0)
+- Composer (latest version)
+- MySQL or SQLite (for testing)
+- Git (to clone the repository)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Setup Instructions
+### 1. Clone the Repository
+```bash
+git clone https://github.com/your-username/multi-tenant-ecommerce.git
+cd multi-tenant-ecommerce
+```
+### 2. Install Dependencies
+```bash
+composer install
+```
+### 3. Configure Environment
+Copy the `.env.example` file and update database credentials:
+```bash
+cp .env.example .env
+```
+Edit `.env`:
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=your_database_name
+DB_USERNAME=your_username
+DB_PASSWORD=your_password
+```
+### 4. Generate Application Key
+```bash
+php artisan key:generate
+```
+### 5. Run Migrations
+```bash
+php artisan migrate
+```
+### 6. Install and Configure Passport
+```bash
+php artisan passport:install
+```
+After installation, update `.env` with the generated `PASSPORT_PERSONAL_ACCESS_CLIENT_ID` and `PASSPORT_PERSONAL_ACCESS_CLIENT_SECRET`.
 
-## Learning Laravel
+### 7. Seed the Database (Optional)
+```bash
+php artisan db:seed
+```
+### 8. Start the Server
+```bash
+php artisan serve
+```
+The API will be available at `http://localhost:8000`.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Running the Application
+Use Postman or cURL to access the API.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### Example: Register a User
+```bash
+curl -X POST http://localhost:8000/api/register \
+-H "Content-Type: application/json" \
+-d '{"name": "Test User", "email": "test@example.com", "password": "password", "password_confirmation": "password", "tenant_name": "Test Tenant", "owner_name": "Owner Name"}'
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## API Endpoints
 
-## Laravel Sponsors
+### **Authentication**
+| Method | Endpoint       | Description | Middleware        |
+|--------|--------------|-------------|------------------|
+| POST   | /api/register | Register new tenant owner | throttle:register |
+| POST   | /api/login    | Login and get token | throttle:login |
+| POST   | /api/logout   | Logout and revoke token | auth:api |
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### **Products**
+| Method | Endpoint           | Description | Middleware |
+|--------|-------------------|-------------|------------|
+| GET    | /api/products      | List all products | auth:api |
+| POST   | /api/products      | Create a new product | auth:api |
+| PUT    | /api/products/{id} | Update a product | auth:api |
+| DELETE | /api/products/{id} | Delete a product | auth:api |
 
-### Premium Partners
+### **Orders**
+| Method | Endpoint          | Description | Middleware |
+|--------|------------------|-------------|------------|
+| GET    | /api/orders      | List all orders | auth:api |
+| POST   | /api/orders      | Place an order | auth:api |
+| DELETE | /api/orders/{id} | Cancel an order | auth:api |
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+## Testing
+This project includes API tests written with PestPHP.
 
-## Contributing
+### 1. Install PestPHP
+```bash
+composer require pestphp/pest --dev
+php artisan pest:install
+```
+### 2. Configure Testing Database
+Use SQLite for testing:
+```env
+DB_CONNECTION=sqlite
+DB_DATABASE=:memory:
+```
+Or update `phpunit.xml`:
+```xml
+<env name="DB_CONNECTION" value="sqlite"/>
+<env name="DB_DATABASE" value=":memory:"/>
+```
+### 3. Run Tests
+```bash
+php artisan test
+```
+Or using Pest:
+```bash
+./vendor/bin/pest
+```
+### Test Coverage
+- **AuthTest:** Registration, login, logout.
+- **ProductTest:** CRUD operations for products.
+- **OrderTest:** Order placement, stock validation, cancellation.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Project Structure
+- **Controllers:** `app/Http/Controllers/API/`
+  - `AuthController.php` (Authentication)
+  - `ProductController.php` (Product CRUD)
+  - `OrderController.php` (Order Management)
+- **Routes:** `routes/api.php`
+- **Tests:** `tests/Feature/`
+- **Models:** `User`, `Tenant`, `Product`, `Order` with relationships.
 
-## Code of Conduct
+## Deployment Guide
+For deploying to a live server:
+1. Upload project files.
+2. Configure `.env` for production database and Passport settings.
+3. Run migrations and Passport setup:
+   ```bash
+   php artisan migrate --force
+   php artisan passport:install --force
+   ```
+4. Set up a queue system if needed.
+5. Use a process manager like Supervisor for queue workers.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
 ## License
+This project is licensed under the MIT License.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Contact
+For support, reach out via `abdoalkhabet556@gmail.com` or open an issue on GitHub.
+
