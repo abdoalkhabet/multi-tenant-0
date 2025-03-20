@@ -17,11 +17,11 @@ class tenant extends Model
     ];
     public function products()
     {
-        return $this->hasMany(Product::class);
+        return $this->hasMany(product::class);
     }
     public function orders()
     {
-        return $this->hasMany(Order::class);
+        return $this->hasMany(order::class);
     }
     public function customers()
     {
