@@ -28,7 +28,7 @@ beforeEach(function () {
 });
 
 it('authenticated user can list products', function () {
-    Product::factory()->count(3)->create(['tenant_id' => $this->tenant->id]);
+    product::factory()->count(3)->create(['tenant_id' => $this->tenant->id]);
 
     $response = $this->getJson('/api/products');
 
@@ -51,7 +51,7 @@ it('authenticated user can create a product', function () {
 });
 
 it('authenticated user can update a product', function () {
-    $product = Product::factory()->create(['tenant_id' => $this->tenant->id]);
+    $product = product::factory()->create(['tenant_id' => $this->tenant->id]);
 
     $updatedData = ['name' => 'Updated Product Name'];
 
@@ -62,7 +62,7 @@ it('authenticated user can update a product', function () {
 });
 
 it('authenticated user can delete a product', function () {
-    $product = Product::factory()->create(['tenant_id' => $this->tenant->id]);
+    $product = product::factory()->create(['tenant_id' => $this->tenant->id]);
 
     $response = $this->deleteJson("/api/products/{$product->id}");
 

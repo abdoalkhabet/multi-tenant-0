@@ -47,7 +47,7 @@ class ProductController extends Controller
     }
     public function update(Request $request, $id)
     {
-        $product = Product::where('tenant_id', auth()->user()->tenant_id)->find($id);
+        $product = product::where('tenant_id', auth()->user()->tenant_id)->find($id);
 
         if (!$product) {
             return response()->json(['error' => 'Product not found'], 404);
@@ -77,7 +77,7 @@ class ProductController extends Controller
 
     public function destroy($id)
     {
-        $product = Product::where('tenant_id', auth()->user()->tenant_id)->find($id);
+        $product = product::where('tenant_id', auth()->user()->tenant_id)->find($id);
         if (!$product) {
             return response()->json(['error' => 'Product not found'], 404);
         }

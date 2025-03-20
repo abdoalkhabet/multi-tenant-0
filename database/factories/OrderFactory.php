@@ -22,7 +22,7 @@ class OrderFactory extends Factory
     public function definition(): array
     {
         $user = User::factory()->create();
-        $product = Product::factory()->create(['tenant_id' => $user->tenant_id]);
+        $product = product::factory()->create(['tenant_id' => $user->tenant_id]);
 
         return [
             'product_id' => $product->id,

@@ -45,7 +45,7 @@ test('user can view all orders', function () {
 });
 
 test('user can place an order', function () {
-    $product = Product::factory()->create([
+    $product = product::factory()->create([
         'tenant_id' => $this->user->tenant_id,
         'stock_quantity' => 10
     ]);
@@ -63,7 +63,7 @@ test('user can place an order', function () {
 });
 
 test('user cannot order a product with insufficient stock', function () {
-    $product = Product::factory()->create([
+    $product = product::factory()->create([
         'tenant_id' => $this->user->tenant_id,
         'stock_quantity' => 1
     ]);
