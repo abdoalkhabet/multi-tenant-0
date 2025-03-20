@@ -16,7 +16,7 @@ beforeEach(function () {
         [
             'name' => 'Personal Access Client',
             'secret' => Str::random(40),
-            'redirect' => 'http://localhost',
+            'redirect' => 'http://localhost:8000',
             'personal_access_client' => true,
             'password_client' => false,
             'revoked' => false,
