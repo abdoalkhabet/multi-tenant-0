@@ -11,7 +11,6 @@ use Illuminate\Support\Str;
 uses(RefreshDatabase::class);
 
 beforeEach(function () {
-    // إنشاء Personal Access Client
     Client::create([
         'id' => 1,
         'name' => 'Personal Access Client',

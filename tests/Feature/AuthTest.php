@@ -10,9 +10,8 @@ use Illuminate\Support\Str;
 uses(RefreshDatabase::class);
 
 beforeEach(function () {
-    // إنشاء أو التأكد من وجود Personal Access Client
     Client::firstOrCreate(
-        ['personal_access_client' => true], // البحث بناءً على personal_access_client
+        ['personal_access_client' => true],
         [
             'name' => 'Personal Access Client',
             'secret' => Str::random(40),
